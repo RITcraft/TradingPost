@@ -1,0 +1,103 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    background-image: url("tradingpost.png");
+}
+
+.border-right {
+    border-right: solid 1px;
+}
+
+.height-fix {
+    height: 100%;
+}
+
+.navbar {
+    margin-bottom: 10px;
+    width: 100%;
+    border-radius: 0px;
+}
+
+#right {
+    position: absolute;
+    right: 0px;
+}
+
+#search {
+    height: 34px;
+}
+
+.listings-table {
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+    max-height: 700px;
+}
+
+.item-column {
+    width: 33%;
+    text-align: center;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+}
+
+.amount-column {
+    width: 33%;
+    text-align: center;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+}
+
+.price-column {
+    width: 33%;
+    text-align: center;
+    border-bottom: 1px solid;
+}
+
+.column-mid-fix {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.sale-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.border-bottom {
+    border-bottom: 1px solid;
+}
+
+.border-top {
+    border-top: 1px solid;
+}
+
+.enchanted {
+    background: -webkit-radial-gradient(rgba(0, 255, 225, 1), rgba(179, 209, 225, 0)); /* For Safari 5.1 to 6.0 */
+    background: -o-radial-gradient(rgba(0, 255, 225, 1), rgba(179, 209, 225, 0)); /* For Opera 11.1 to 12.0 */
+    background: -moz-radial-gradient(rgba(0, 25, 225, 1), rgba(179, 209, 225, 0)); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(rgba(0, 255, 225, 1), rgba(179, 209, 225, 0)); /* Standard syntax (must be last) */
+    background-size: 21px;
+    background-position-x: -16px;
+    background-position-y: -16px;
+    padding: 2px;
+
+    animation: animated 3s infinite;
+    -webkit-animation: animated 3s infinite;
+    -o-animation: animated 3s infinite;
+    animation: animated 3s infinite;
+}
+
+@keyframes animated {
+    0% {
+        background-size: 26px;
+    }
+    50% {
+        background-size: 36px;
+    }
+    100% {
+        background-size: 26px;
+    }
+}

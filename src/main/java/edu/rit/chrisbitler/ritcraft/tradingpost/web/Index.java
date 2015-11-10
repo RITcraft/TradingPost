@@ -1,5 +1,7 @@
 package edu.rit.chrisbitler.ritcraft.tradingpost.web;
 
+import spark.template.freemarker.FreeMarkerEngine;
+
 import static spark.Spark.*;
 
 public class Index {
@@ -7,9 +9,12 @@ public class Index {
     {
         ipAddress(ip);
         port(port);
-        get("/",new IndexPage());
-        get("/view/:id",);
-        get("/buy",);
-        get("/login",);
+        staticFileLocation("/public");
+        get("/", new IndexPage(), new FreeMarkerEngine());
+        post("/login", new LoginPage());
+        get("/logout", new LogoutPage());
+        get("/view/:id", new ViewPage(), new FreeMarkerEngine());
+        /*get("/buy",);
+        get("/login",);*/
     }
 }

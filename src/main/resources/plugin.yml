@@ -1,0 +1,7 @@
+name: TradingPost
+version: 1.0
+author: VoidWhisperer
+main: edu.rit.chrisbitler.ritcraft.tradingpost.TradingPost
+commands:
+ tradepost:
+  description: "Main command for the trading post"

@@ -1,13 +1,17 @@
 package edu.rit.chrisbitler.ritcraft.tradingpost;
 
+import edu.rit.chrisbitler.ritcraft.tradingpost.cmd.TradePost;
+import edu.rit.chrisbitler.ritcraft.tradingpost.data.Sale;
+import edu.rit.chrisbitler.ritcraft.tradingpost.data.Sales;
 import edu.rit.chrisbitler.ritcraft.tradingpost.web.Index;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by Chris on 11/1/2015.
@@ -16,7 +20,7 @@ public class TradingPost extends JavaPlugin {
     private Connection conn;
     private FileConfiguration config;
     public static TradingPost instance;
-
+    public Economy economy;
     public void onEnable() {
         instance = this;
 
@@ -56,11 +60,37 @@ public class TradingPost extends JavaPlugin {
             System.out.println("Error connecting to mysql! Check your connection info - " + e.getMessage());
         }
 
+        //Load sales data
+        System.out.println("Loading offers..");
+        try {
+            Statement stmt = getMYSQL().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `listings`");
+            while (rs.next()) {
+                Sale sale = new Sale(rs.getString("owner"), rs.getInt("price"), rs.getInt("id"), rs.getString("item"));
+                Sales.sales.add(sale);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         //Attempt to start the spark site
         Index.register(ip,port);
-
         //Register commands
-        getCommand("tradepost").setExecutor(new T rad);
+        getCommand("tradepost").setExecutor(new TradePost());
 
+        setupEconomy();
+    }
+
+    private boolean setupEconomy() {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
+
+        return (economy != null);
+    }
+
+    public Connection getMYSQL() {
+        return conn;
     }
 }
