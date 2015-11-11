@@ -1,5 +1,5 @@
 #TradingPost [WIP]
-SlackIntegration is a plugin created by Chris Bitler for RITCraft.
+TradingPost is a plugin created by Chris Bitler for RITCraft.
 Our goal with this plugin was to try to revolutionize how people do their trading between players on minecraft servers.
 The plugin has two parts: The plugin itself, where users can register for the trading post, add items to the trading post, and claim their items, and also a web interface portion, where people can search and buy the items that are currently for sale.
 
