@@ -2,6 +2,15 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="../../index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        <#if money??>
+        var money = ${money?c};
+        <#else>
+        var money = -1;
+        </#if>
+    </script>
+    <script src="../view.js"></script>
 </head>
 <div class="container"
      style="width: 90%; background-color: white; opacity: 0.8; padding-left: 0px; padding-right: 0px;">
@@ -44,7 +53,7 @@
                         <th class="price-column">Price</th>
                     </tr>
                     <#list listings as sale>
-                    <tr class="border-bottom">
+                    <tr class="border-bottom" onmouseover="showData(${sale.getId()})">
                         <td>
                             <!-- TODO: Get datavalue only if it actually affects the type of block -->
                             <#if sale.isEnchanted()>
@@ -67,10 +76,31 @@
                 </table>
             </div>
             <div class="col-sm-6 height-fix">
-                <!-- Second column -->
+                <div id="item-data" style="display: inline;" class="text-center">
 
+                </div>
             </div>
         </div>
         <!-- /.container -->
+    </div>
+</div>
+
+<div id="alertModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="alert-header"></h4>
+            </div>
+            <div class="modal-body">
+                <p id="alert-body"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
     </div>
 </div>

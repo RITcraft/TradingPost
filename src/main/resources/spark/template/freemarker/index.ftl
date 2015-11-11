@@ -67,14 +67,17 @@
                     <#list listings as sale>
                     <tr class="border-bottom">
                         <td>
-                            <!-- TODO: Get datavalue only if it actually affects the type of block -->
-                            <#if sale.isEnchanted()>
-                                <img src='${sale.getItem().getTypeId()}-${sale.getDataValue()}.png'
-                                     class="sale-icon enchanted"/> <b>${sale.getName()}</b>
-                            <#else>
-                                <img src='${sale.getItem().getTypeId()}-${sale.getDataValue()}.png' class="sale-icon"/>
-                                <b>${sale.getName()}</b>
-                            </#if>
+                            <a href="/view/${sale.getItem().getType().name()}">
+                                <!-- TODO: Get datavalue only if it actually affects the type of block -->
+                                <#if sale.isEnchanted()>
+                                    <img src='${sale.getItem().getTypeId()}-${sale.getDataValue()}.png'
+                                         class="sale-icon enchanted"/> <b>${sale.getName()}</b>
+                                <#else>
+                                    <img src='${sale.getItem().getTypeId()}-${sale.getDataValue()}.png'
+                                         class="sale-icon"/>
+                                    <b>${sale.getName()}</b>
+                                </#if>
+                            </a>
                         </td>
                         <td>
                         ${sale.getItem().getAmount()}

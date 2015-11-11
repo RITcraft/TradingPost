@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class Sale {
     private ItemStack item;
+    private String itemJSON;
     private String owner;
     private int price;
     int id;
@@ -21,6 +22,7 @@ public class Sale {
         this.owner = owner;
         this.price = price;
         this.id = id;
+        this.itemJSON = itemJson;
         JsonConfiguration config = new JsonConfiguration();
         try {
             config.loadFromString(itemJson);
@@ -34,6 +36,9 @@ public class Sale {
         this.owner = owner;
         this.price = price;
         this.item = item;
+        JsonConfiguration config = new JsonConfiguration();
+        config.set("item", item);
+        itemJSON = config.saveToString();
     }
 
     public ItemStack getItem() {
@@ -87,5 +92,13 @@ public class Sale {
 
     public int getId() {
         return id;
+    }
+
+    public String getItemJSON() {
+        return itemJSON;
+    }
+
+    public void setItemJSON(String itemJSON) {
+        this.itemJSON = itemJSON;
     }
 }

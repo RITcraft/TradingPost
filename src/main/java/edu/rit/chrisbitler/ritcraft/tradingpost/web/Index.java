@@ -14,6 +14,7 @@ public class Index {
         post("/login", new LoginPage());
         get("/logout", new LogoutPage());
         get("/view/:id", new ViewPage(), new FreeMarkerEngine());
+        get("/data", new DataPage());
         /*get("/buy",);
         get("/login",);*/
     }

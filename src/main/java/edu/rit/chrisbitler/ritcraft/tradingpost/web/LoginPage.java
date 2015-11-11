@@ -21,20 +21,16 @@ import java.util.UUID;
 public class LoginPage implements Route {
     public Object handle(Request request, Response response) throws Exception {
         if (request.queryParams("username") != null && request.queryParams("password") != null) {
-            System.out.println("1");
             String user = request.queryParams("username");
             OfflinePlayer player = Bukkit.getOfflinePlayer(user);
             if (player != null) {
-                System.out.println("2");
                 UUID uuid = player.getUniqueId();
                 Statement stmt = TradingPost.instance.getMYSQL().createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT * FROM `users` WHERE `uuid`='" + uuid.toString() + "'");
                 if (rs.next()) {
-                    System.out.println("3");
                     String salt = rs.getString("salt");
                     byte[] key = base64Decoder(salt);
                     if (hash(request.queryParams("password"), key).equals(rs.getString("password"))) {
-                        System.out.println("4");
                         request.session().attribute("loggedIn", true);
                         request.session().attribute("uuid", uuid.toString());
                         response.redirect("/");
@@ -46,6 +42,8 @@ public class LoginPage implements Route {
                     response.status(401);
                     response.redirect("/?error=Non-existant user");
                 }
+                rs.close();
+                stmt.close();
             } else {
                 response.status(401);
                 response.redirect("/?error=Non-existant user");

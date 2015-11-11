@@ -11,7 +11,16 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.sql.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by Chris on 11/1/2015.
@@ -29,7 +38,7 @@ public class TradingPost extends JavaPlugin {
         String mysqlUsername,mysqlPassword,mysqlHost,mysqlDb;
         String ip;
         int port;
-
+        System.out.println("Loading configuration..");
         if(getConfig().getString("mysql_username") != null && !getConfig().getString("mysql_username").equalsIgnoreCase("username")) {
             mysqlUsername = getConfig().getString("mysql_username");
             mysqlPassword = getConfig().getString("mysql_password");
@@ -69,6 +78,8 @@ public class TradingPost extends JavaPlugin {
                 Sale sale = new Sale(rs.getString("owner"), rs.getInt("price"), rs.getInt("id"), rs.getString("item"));
                 Sales.sales.add(sale);
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

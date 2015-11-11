@@ -1,6 +1,7 @@
 package edu.rit.chrisbitler.ritcraft.tradingpost.data;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,5 +27,15 @@ public class Sales {
             }
         }
         return null;
+    }
+
+    public static void remove(int id) {
+        Iterator<Sale> iter = sales.iterator();
+        while (iter.hasNext()) {
+            Sale next = iter.next();
+            if (next.getId() == id) {
+                iter.remove();
+            }
+        }
     }
 }
