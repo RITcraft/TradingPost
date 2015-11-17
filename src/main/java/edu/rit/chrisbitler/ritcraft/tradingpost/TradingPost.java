@@ -76,6 +76,11 @@ public class TradingPost extends JavaPlugin implements Listener {
         //Attempt to connect to mysql
         try {
             conn = DriverManager.getConnection("jdbc:mysql://"+mysqlHost+"/"+mysqlDb+"?user="+mysqlUsername+"&password="+mysqlPassword);
+            Statement stmt = conn.createStatement();
+            stmt.execute("CREATE TABLE IF NOT EXISTS `alerts` (`owner` varchar(45) NOT NULL,`id` int(11) NOT NULL AUTO_INCREMENT,`type` varchar(45) NOT NULL,`text` varchar(100) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=latin1");
+            stmt.execute("CREATE TABLE IF NOT EXISTS `claims` (`owner` varchar(45) NOT NULL,`item` text NOT NULL,`id` int(11) NOT NULL AUTO_INCREMENT, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=latin1");
+            stmt.execute("CREATE TABLE IF NOT EXISTS `listings` (`id` int(11) NOT NULL AUTO_INCREMENT,`owner` varchar(45) NOT NULL,`price` int(11) DEFAULT NULL,`item` text NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1");
+            stmt.execute("CREATE TABLE IF NOT EXISTS `users` (`uuid` varchar(200) NOT NULL,`password` varchar(200) NOT NULL,`id` int(11) NOT NULL AUTO_INCREMENT,`salt` text, PRIMARY KEY (`id`), UNIQUE KEY `unique_id` (`id`)) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1");
         } catch (SQLException e) {
             System.out.println("Error connecting to mysql! Check your connection info - " + e.getMessage());
         }
