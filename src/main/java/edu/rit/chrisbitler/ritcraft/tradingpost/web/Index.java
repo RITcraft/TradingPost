@@ -15,7 +15,7 @@ public class Index {
         get("/logout", new LogoutPage());
         get("/view/:id", new ViewPage(), new FreeMarkerEngine());
         get("/data", new DataPage());
-        /*get("/buy",);
-        get("/login",);*/
+        get("/buy", new BuyPage());
+        get("/cancel", new CancelPage());
     }
 }

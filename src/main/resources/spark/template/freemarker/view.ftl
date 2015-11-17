@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="../../index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     <script>
         <#if money??>
         var money = ${money?c};
@@ -17,12 +18,16 @@
     <div class="navbar navbar-inverse">
         <div class="container" style="margin-left: 0px; margin-right: 0px;">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Minecraft Trading post</a>
+                <a class="navbar-brand" href="/">Minecraft Trading post</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Made by VoidWhisperer</a></li>
+                    <#if loggedIn>
+                        <li><a href="#">Balance: $${money}</a></li>
+                    <#else>
+                        <li><a href="/">Log in to see your balance.</a></li>
+                    </#if>
                 </ul>
                 <div class="col-sm-3 col-md-3" id="right">
                     <form class="navbar-form" role="search">
@@ -53,7 +58,7 @@
                         <th class="price-column">Price</th>
                     </tr>
                     <#list listings as sale>
-                    <tr class="border-bottom" onmouseover="showData(${sale.getId()})">
+                    <tr class="border-bottom" onmouseover="showData(${sale.getId()})" id="${sale.getId()}">
                         <td>
                             <!-- TODO: Get datavalue only if it actually affects the type of block -->
                             <#if sale.isEnchanted()>

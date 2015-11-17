@@ -27,6 +27,11 @@ public class DataPage implements Route {
                 object.put("sid", id);
                 object.put("amount", sale.getItem().getAmount());
                 object.put("price", sale.getPrice());
+                if(request.session().attribute("loggedIn") != null) {
+                    object.put("isOwner", sale.getOwner().equals(request.session().attribute("uuid")));
+                }else{
+                    object.put("isOwner", false);
+                }
                 object.put("enchanted", sale.getItem().getEnchantments().size() != 0);
                 if (sale.getItem().getEnchantments().size() != 0) {
                     JSONArray array = new JSONArray();

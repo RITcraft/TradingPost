@@ -6,26 +6,37 @@ import edu.rit.chrisbitler.ritcraft.tradingpost.data.Sales;
 import edu.rit.chrisbitler.ritcraft.tradingpost.web.Index;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.slf4j.ILoggerFactory;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.SubstituteLoggerFactory;
+import org.slf4j.impl.SimpleLoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.sql.*;
+import java.util.Enumeration;
+import java.util.logging.LogManager;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
  * Created by Chris on 11/1/2015.
  */
-public class TradingPost extends JavaPlugin {
+public class TradingPost extends JavaPlugin implements Listener {
     private Connection conn;
     private FileConfiguration config;
     public static TradingPost instance;
@@ -84,12 +95,16 @@ public class TradingPost extends JavaPlugin {
             e.printStackTrace();
         }
 
+
+        System.out.println("------ The text related to 'Thread-8' is the embedded webserver starting. ------");
         //Attempt to start the spark site
         Index.register(ip,port);
         //Register commands
         getCommand("tradepost").setExecutor(new TradePost());
 
         setupEconomy();
+
+        Bukkit.getPluginManager().registerEvents(this, this);
     }
 
     private boolean setupEconomy() {
@@ -103,5 +118,34 @@ public class TradingPost extends JavaPlugin {
 
     public Connection getMYSQL() {
         return conn;
+    }
+
+    @EventHandler
+    public void onJoin(final PlayerJoinEvent e) {
+        Bukkit.getScheduler().runTaskAsynchronously(this, new Runnable() {
+
+            public void run() {
+                try {
+                    Statement stmt = getMYSQL().createStatement();
+                    ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM `claims` WHERE `owner`='" + e.getPlayer().getUniqueId().toString() + "'");
+                    rs.first();
+                    if(rs.getInt("COUNT(*)") > 0) {
+                        e.getPlayer().sendMessage(ChatColor.GOLD + "You have some items to claim from the trading post!");
+                    }
+                    rs.close();
+
+                    Statement delete = getMYSQL().createStatement();
+                    ResultSet rs2 = stmt.executeQuery("SELECT * FROM `alerts` WHERE `owner`='" + e.getPlayer().getUniqueId().toString() + "'");
+                    while(rs2.next()) {
+                        if(rs2.getString("type").equals("buy")) {
+                            e.getPlayer().sendMessage(ChatColor.GOLD + rs2.getString("text"));
+                            delete.execute("DELETE FROM `alerts` WHERE `id`=" + rs2.getInt("id"));
+                        }
+                    }
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
     }
 }

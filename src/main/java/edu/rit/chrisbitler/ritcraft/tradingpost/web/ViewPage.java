@@ -19,9 +19,11 @@ public class ViewPage implements TemplateViewRoute {
     public ModelAndView handle(Request request, Response response) throws Exception {
         Map<String, Object> viewModel = new HashMap<String, Object>();
         String material = request.params("id");
-        List<Sale> applicable = Sales.get(material.toUpperCase().replace(" ", "_"));
+        List<Sale> applicable = Sales.get(material.toUpperCase().replace(" ", "_"),40);
         Collections.reverse(applicable);
+        Collections.sort(applicable,new SaleComparator<Sale>());
         viewModel.put("listings", applicable);
+        viewModel.put("loggedIn", request.session().attribute("loggedIn") != null);
         viewModel.put("material", getName(material));
         if (request.session().attribute("loggedIn") != null) {
             OfflinePlayer oplayer = Bukkit.getOfflinePlayer(UUID.fromString((String) request.session().attribute("uuid")));
@@ -37,5 +39,19 @@ public class ViewPage implements TemplateViewRoute {
         name = name.substring(1);
         name = first.toUpperCase() + name;
         return name;
+    }
+
+    private class SaleComparator<T> implements Comparator<Sale> {
+
+        public int compare(Sale o1, Sale o2) {
+            if(o1.getPrice() < o2.getPrice()) {
+                return -1;
+            }else if(o1.getPrice() == o2.getPrice()) {
+                return 0;
+            }else if(o1.getPrice() > o2.getPrice()) {
+                return 1;
+            }
+            return 0;
+        }
     }
 }

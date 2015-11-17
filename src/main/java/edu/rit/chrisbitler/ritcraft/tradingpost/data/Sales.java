@@ -20,6 +20,18 @@ public class Sales {
         return listings;
     }
 
+    public static List<Sale> get(String material, int limit) {
+        List<Sale> listings = new ArrayList<Sale>();
+        for (Sale sale : sales) {
+            if (sale.getItem().getType().name().equals(material)) {
+                listings.add(sale);
+            }
+            if(listings.size() == limit)
+                break;
+        }
+        return listings;
+    }
+
     public static Sale getById(int id) {
         for (Sale sale : sales) {
             if (sale.getId() == id) {

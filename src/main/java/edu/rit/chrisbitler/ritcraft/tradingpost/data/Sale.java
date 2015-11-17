@@ -32,7 +32,7 @@ public class Sale {
         }
     }
 
-    public Sale(String owner, int price, ItemStack item) {
+    public Sale(String owner, int price, ItemStack item, int id) {
         this.owner = owner;
         this.price = price;
         this.item = item;

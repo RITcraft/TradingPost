@@ -29,7 +29,13 @@ public class IndexPage implements TemplateViewRoute {
         viewObjects.put("money", TradingPost.instance.economy.getBalance(oplayer));
         List<Sale> copy = (List<Sale>) Sales.sales.clone();
         Collections.reverse(copy);
-        viewObjects.put("listings", copy);
+        List<Sale> show = new ArrayList<Sale>();
+        for(Sale sale : copy) {
+            show.add(sale);
+            if(show.size() == 20)
+                break;
+        }
+        viewObjects.put("listings", show);
 
         if (request.queryParams("error") != null) {
             String error = request.queryParams("error");

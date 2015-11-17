@@ -25,21 +25,25 @@ public class BuyPage implements Route {
                         int money = (int) TradingPost.instance.economy.getBalance(p);
                         if (money >= sale.getPrice()) {
                             UUID oUUID = UUID.fromString(sale.getOwner());
-                            OfflinePlayer other = Bukkit.getOfflinePlayer(oUUID);
-                            if (other != null) {
-                                int id = Integer.parseInt(request.queryParams("id"));
-                                //TODO: Alert a user when one of their things has sold.
-                                TradingPost.instance.economy.withdrawPlayer(p, money);
-                                TradingPost.instance.economy.depositPlayer(other, money);
-                                Sales.remove(id);
+                            if(!oUUID.toString().equalsIgnoreCase(uuid.toString())) {
+                                OfflinePlayer other = Bukkit.getOfflinePlayer(oUUID);
+                                if (other != null) {
+                                    int id = Integer.parseInt(request.queryParams("id"));
+                                    TradingPost.instance.economy.withdrawPlayer(p, money);
+                                    TradingPost.instance.economy.depositPlayer(other, money);
+                                    Sales.remove(id);
 
-                                Statement stmt = TradingPost.instance.getMYSQL().createStatement();
-                                stmt.execute("DELETE * FROM `listings` WHERE `id`=" + id);
-                                stmt.execute("INSERT INTO `claims` (`owner`,`item`) VALUES ('" + other.getUniqueId().toString() + "','" + sale.getItemJSON() + "')");
-                                stmt.close();
-                                return alertJson("Bought item!");
-                            } else {
-                                return errorJson("The owner of this offer doesn't exist.");
+                                    Statement stmt = TradingPost.instance.getMYSQL().createStatement();
+                                    stmt.execute("DELETE FROM `listings` WHERE `id`=" + id);
+                                    stmt.execute("INSERT INTO `claims` (`owner`,`item`) VALUES ('" + p.getUniqueId().toString() + "','" + sale.getItemJSON() + "')");
+                                    stmt.execute("INSERT INTO `alerts` (`owner`,`type`,`text`) VALUES ('" + other.getUniqueId().toString() + "','buy','" + p.getName() + " bought your " + sale.getName() + " x" + sale.getItem().getAmount() + " for $" + sale.getPrice() + "')");
+                                    stmt.close();
+                                    return alertJson("You have bought this item. You can now claim it ingame via /tradepost claim");
+                                } else {
+                                    return errorJson("The owner of this offer doesn't exist.");
+                                }
+                            }else{
+                                return errorJson("You cannot buy your own items.");
                             }
                         } else {
                             return errorJson("You cannot afford this listing.");

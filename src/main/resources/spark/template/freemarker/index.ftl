@@ -13,7 +13,11 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Made by VoidWhisperer</a></li>
+                    <#if loggedIn>
+                        <li><a href="#">Balance: $${money}</a></li>
+                    <#else>
+                        <li><a href="/">Log in to see your balance.</a></li>
+                    </#if>
                 </ul>
                 <div class="col-sm-3 col-md-3" id="right">
                     <form class="navbar-form" role="search">
