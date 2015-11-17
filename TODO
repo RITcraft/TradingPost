@@ -1,5 +1,3 @@
 TODO:
-Add ability to claim items
-Sort items by price on view page
-Sort items by update time on the main page
-Limit number of items shown on the view page to 40
+List sale offers for user in info on main page
+Paginate the view page
