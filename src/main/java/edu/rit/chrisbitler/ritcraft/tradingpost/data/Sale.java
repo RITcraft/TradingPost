@@ -3,10 +3,11 @@ package edu.rit.chrisbitler.ritcraft.tradingpost.data;
 import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -71,16 +72,24 @@ public class Sale {
         if (item.getItemMeta().getDisplayName() != null) {
             return "\"" + item.getItemMeta().getDisplayName() + "\"";
         } else {
-            /*
-            String name = item.getType().name().toLowerCase();
-            name = name.replaceAll("_", " ");
-            String first = name.substring(0, 1);
-            name = name.substring(1);
-            name = first.toUpperCase() + name;
-            */
-            String name = CraftItemStack.asNMSCopy(item).getName();
-            return name;
+            try {
+                Class clazz = Class.forName("org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack");
+                Method method = clazz.getDeclaredMethod("asNMSCopy", ItemStack.class);
+                method.setAccessible(true);
+                Object nmsItem = method.invoke(null, item);
+                Method n = nmsItem.getClass().getDeclaredMethod("getName");
+                return (String) n.invoke(nmsItem);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
+        return null;
     }
 
     public boolean isEnchanted() {
