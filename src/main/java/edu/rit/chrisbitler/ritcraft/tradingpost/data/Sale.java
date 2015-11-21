@@ -3,6 +3,7 @@ package edu.rit.chrisbitler.ritcraft.tradingpost.data;
 import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
@@ -39,6 +40,7 @@ public class Sale {
         JsonConfiguration config = new JsonConfiguration();
         config.set("item", item);
         itemJSON = config.saveToString();
+        this.id = id;
     }
 
     public ItemStack getItem() {
@@ -69,11 +71,14 @@ public class Sale {
         if (item.getItemMeta().getDisplayName() != null) {
             return "\"" + item.getItemMeta().getDisplayName() + "\"";
         } else {
+            /*
             String name = item.getType().name().toLowerCase();
             name = name.replaceAll("_", " ");
             String first = name.substring(0, 1);
             name = name.substring(1);
             name = first.toUpperCase() + name;
+            */
+            String name = CraftItemStack.asNMSCopy(item).getName();
             return name;
         }
     }

@@ -4,6 +4,7 @@ import edu.rit.chrisbitler.ritcraft.tradingpost.TradingPost;
 import edu.rit.chrisbitler.ritcraft.tradingpost.data.Sale;
 import edu.rit.chrisbitler.ritcraft.tradingpost.data.Sales;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.json.simple.JSONObject;
 import spark.Request;
@@ -29,14 +30,23 @@ public class BuyPage implements Route {
                                 OfflinePlayer other = Bukkit.getOfflinePlayer(oUUID);
                                 if (other != null) {
                                     int id = Integer.parseInt(request.queryParams("id"));
-                                    TradingPost.instance.economy.withdrawPlayer(p, money);
-                                    TradingPost.instance.economy.depositPlayer(other, money);
+                                    TradingPost.instance.economy.withdrawPlayer(p, sale.getPrice());
+                                    TradingPost.instance.economy.depositPlayer(other, sale.getPrice());
                                     Sales.remove(id);
 
                                     Statement stmt = TradingPost.instance.getMYSQL().createStatement();
                                     stmt.execute("DELETE FROM `listings` WHERE `id`=" + id);
                                     stmt.execute("INSERT INTO `claims` (`owner`,`item`) VALUES ('" + p.getUniqueId().toString() + "','" + sale.getItemJSON() + "')");
-                                    stmt.execute("INSERT INTO `alerts` (`owner`,`type`,`text`) VALUES ('" + other.getUniqueId().toString() + "','buy','" + p.getName() + " bought your " + sale.getName() + " x" + sale.getItem().getAmount() + " for $" + sale.getPrice() + "')");
+
+                                    if (other.isOnline()) {
+                                        Bukkit.getPlayer(other.getUniqueId()).sendMessage(ChatColor.GOLD + p.getName() + " bought your " + sale.getName() + " x" + sale.getItem().getAmount() + " for $" + sale.getPrice());
+                                    } else {
+                                        stmt.execute("INSERT INTO `alerts` (`owner`,`type`,`text`) VALUES ('" + other.getUniqueId().toString() + "','buy','" + p.getName() + " bought your " + sale.getName() + " x" + sale.getItem().getAmount() + " for $" + sale.getPrice() + "')");
+                                    }
+                                    if (p.isOnline()) {
+                                        Bukkit.getPlayer(p.getUniqueId()).sendMessage(ChatColor.GOLD + "You have some items to claim from the trading post!");
+                                    }
+
                                     stmt.close();
                                     return alertJson("You have bought this item. You can now claim it ingame via /tradepost claim");
                                 } else {

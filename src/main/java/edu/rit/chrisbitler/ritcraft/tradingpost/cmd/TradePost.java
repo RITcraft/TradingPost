@@ -75,25 +75,54 @@ public class TradePost implements CommandExecutor {
                     }
                 } else if (args[0].equals("add")) {
                     if (args.length == 3) {
-                        final int amount = Integer.parseInt(args[1]);
-                        final int price = Integer.parseInt(args[2]);
+                        int amount = 0;
+                        final int price;
+                        try {
+                            amount = Integer.parseInt(args[1]);
+                            price = Integer.parseInt(args[2]);
+                        } catch (Exception e) {
+                            commandSender.sendMessage(ChatColor.RED + "That is not a valid number for either the amount or the price.");
+                            return true;
+                        }
                         final ItemStack inHand = ((Player) commandSender).getItemInHand();
+                        final Player user = (Player) commandSender;
                         if (inHand.getAmount() >= amount && amount > 0) {
                             if (price > -1) {
+                                final int finalAmount = amount;
                                 Bukkit.getScheduler().runTaskAsynchronously(TradingPost.instance, new Runnable() {
 
                                     public void run() {
                                         try {
                                             ItemStack toAdd = inHand.clone();
-                                            toAdd.setAmount(amount);
+                                            if (toAdd.getItemMeta() != null) {
+                                                if (toAdd.getItemMeta().getDisplayName() != null) {
+                                                    if (toAdd.getItemMeta().getDisplayName().contains("<") || toAdd.getItemMeta().getDisplayName().contains(">")) {
+                                                        commandSender.sendMessage(ChatColor.RED + "Remove the HTML tags from your item name before selling it.");
+                                                        return;
+                                                    }
+                                                }
+                                            }
+                                            Statement stmt = TradingPost.instance.getMYSQL().createStatement();
+                                            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM `listings` WHERE `owner`='" + user.getUniqueId().toString() + "'");
+                                            rs.first();
+                                            if (rs.getInt("COUNT(*)") >= 4) {
+                                                commandSender.sendMessage(ChatColor.RED + "You cannot have more than 4 offers at once.");
+                                                return;
+                                            }
+                                            toAdd.setAmount(finalAmount);
                                             Statement stmnt = TradingPost.instance.getMYSQL().createStatement();
                                             JsonConfiguration config = new JsonConfiguration();
                                             config.set("item", toAdd);
                                             String json = config.saveToString();
                                             String owner = ((Player) commandSender).getUniqueId().toString();
-                                            int id = stmnt.executeUpdate("INSERT INTO `listings` (`owner`,`price`,`item`) VALUES ('" + owner + "','" + price + "','" + json + "')",Statement.RETURN_GENERATED_KEYS);
-                                            if (inHand.getAmount() > amount) {
-                                                inHand.setAmount(inHand.getAmount() - amount);
+                                            stmnt.executeUpdate("INSERT INTO `listings` (`owner`,`price`,`item`) VALUES ('" + owner + "','" + price + "','" + json + "')", Statement.RETURN_GENERATED_KEYS);
+                                            ResultSet _id = stmnt.getGeneratedKeys();
+                                            int id = -999;
+                                            if (_id.next()) {
+                                                id = _id.getInt(1);
+                                            }
+                                            if (inHand.getAmount() > finalAmount) {
+                                                inHand.setAmount(inHand.getAmount() - finalAmount);
                                             } else {
                                                 ((Player) commandSender).setItemInHand(new ItemStack(Material.AIR));
                                             }

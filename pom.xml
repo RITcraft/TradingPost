@@ -21,6 +21,10 @@
             <id>onarandombox</id>
             <url>http://repo.onarandombox.com/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>ess-repo</id>
+            <url>http://repo.ess3.net/content/groups/essentials</url>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -63,11 +67,23 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>spigot</groupId>
+            <artifactId>server</artifactId>
+            <version>1.8.8</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/spigot-1.8.8.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>net.minidev</groupId>
             <artifactId>json-smart</artifactId>
             <version>1.1.1</version>
             <type>jar</type>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.ess3</groupId>
+            <artifactId>Essentials</artifactId>
+            <version>2.13-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
@@ -84,6 +100,10 @@
                         </goals>
                         <configuration>
                             <artifactSet>
+                                <excludes>
+                                    <exclude>org.bukkit:bukkit</exclude>
+                                    <exclude>net.ess3:Essentials</exclude>
+                                </excludes>
                             </artifactSet>
                         </configuration>
                     </execution>

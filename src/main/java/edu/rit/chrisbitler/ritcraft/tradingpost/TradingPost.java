@@ -1,5 +1,6 @@
 package edu.rit.chrisbitler.ritcraft.tradingpost;
 
+import com.earth2me.essentials.Essentials;
 import edu.rit.chrisbitler.ritcraft.tradingpost.cmd.TradePost;
 import edu.rit.chrisbitler.ritcraft.tradingpost.data.Sale;
 import edu.rit.chrisbitler.ritcraft.tradingpost.data.Sales;
@@ -40,6 +41,7 @@ public class TradingPost extends JavaPlugin implements Listener {
     private Connection conn;
     private FileConfiguration config;
     public static TradingPost instance;
+    private Essentials essentials;
     public Economy economy;
     public void onEnable() {
         instance = this;
@@ -100,7 +102,10 @@ public class TradingPost extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
-
+        //Look for essentials
+        if (Bukkit.getPluginManager().getPlugin("Essentials") != null) {
+            essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+        }
         System.out.println("------ The text related to 'Thread-8' is the embedded webserver starting. ------");
         //Attempt to start the spark site
         Index.register(ip,port);
@@ -125,6 +130,9 @@ public class TradingPost extends JavaPlugin implements Listener {
         return conn;
     }
 
+    public Essentials getEssentials() {
+        return essentials;
+    }
     @EventHandler
     public void onJoin(final PlayerJoinEvent e) {
         Bukkit.getScheduler().runTaskAsynchronously(this, new Runnable() {
@@ -153,4 +161,6 @@ public class TradingPost extends JavaPlugin implements Listener {
             }
         });
     }
+
+
 }

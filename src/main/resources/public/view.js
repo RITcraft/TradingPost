@@ -6,7 +6,7 @@ function showData(id) {
         var obj = jQuery.parseJSON(data);
         var html = "";
         html += "<h3>" + obj.itemName + "</h3>";
-        if (obj.enchanted) {
+        if (obj.enchanted || obj.imgsrc == "../../322-1.png") {
             html += "<img src='" + obj.imgsrc + "' class='view-icon enchanted' />";
         } else {
             html += "<img src='" + obj.imgsrc + "' class='view-icon' />";

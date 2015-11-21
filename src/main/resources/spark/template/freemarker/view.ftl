@@ -30,7 +30,7 @@
                     </#if>
                 </ul>
                 <div class="col-sm-3 col-md-3" id="right">
-                    <form class="navbar-form" role="search">
+                    <form class="navbar-form" role="search" action="/">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search" name="srch-term"
                                    id="srch-term">
@@ -61,7 +61,7 @@
                     <tr class="border-bottom" onmouseover="showData(${sale.getId()})" id="${sale.getId()}">
                         <td>
                             <!-- TODO: Get datavalue only if it actually affects the type of block -->
-                            <#if sale.isEnchanted()>
+                            <#if sale.isEnchanted() || (sale.getItem().getTypeId() == 322 && sale.getDataValue() == 1)>
                                 <img src='../../${sale.getItem().getTypeId()}-${sale.getDataValue()}.png'
                                      class="sale-icon enchanted"/> <b>${sale.getName()}</b>
                             <#else>
