@@ -73,7 +73,7 @@ public class Sale {
             return "\"" + item.getItemMeta().getDisplayName() + "\"";
         } else {
             try {
-                Class clazz = Class.forName("org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack");
+                Class clazz = Class.forName("org.bukkit.craftbukkit.v1_9_R1.inventory.CraftItemStack");
                 Method method = clazz.getDeclaredMethod("asNMSCopy", ItemStack.class);
                 method.setAccessible(true);
                 Object nmsItem = method.invoke(null, item);
