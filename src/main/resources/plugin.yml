@@ -1,5 +1,5 @@
 name: TradingPost
-version: 1.0
+version: 2.0
 author: VoidWhisperer
 main: edu.rit.chrisbitler.ritcraft.tradingpost.TradingPost
 commands:
