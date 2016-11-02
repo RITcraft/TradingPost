@@ -1,6 +1,7 @@
 package edu.rit.chrisbitler.ritcraft.tradingpost.data;
 
 import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.enchantments.Enchantment;
@@ -73,7 +74,7 @@ public class Sale {
             return "\"" + item.getItemMeta().getDisplayName() + "\"";
         } else {
             try {
-                Class clazz = Class.forName("org.bukkit.craftbukkit.v1_10_R1.inventory.CraftItemStack");
+                Class clazz = Class.forName("org.bukkit.craftbukkit."+getNMSVersion()+".inventory.CraftItemStack");
                 Method method = clazz.getDeclaredMethod("asNMSCopy", ItemStack.class);
                 method.setAccessible(true);
                 Object nmsItem = method.invoke(null, item);
@@ -90,6 +91,10 @@ public class Sale {
             }
         }
         return null;
+    }
+
+    private String getNMSVersion() {
+        return Bukkit.getServer().getClass().getName().split("\\.")[3];
     }
 
     public boolean isEnchanted() {
