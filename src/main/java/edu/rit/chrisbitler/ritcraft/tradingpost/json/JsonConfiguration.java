@@ -49,7 +49,7 @@ public class JsonConfiguration extends FileConfiguration {
 
     /**
      * Takes a Map and parses through the values, to ensure that, before saving, all objects are as appropriate as
-     * possible for storage in edu.rit.chrisbitler.ritcraft.tradingpost.json format.
+     * possible for storage in json format.
      *
      * Specifically it does the following:
      *   for Map: calls this method recursively on the Map before putting it in the returned Map.
@@ -94,7 +94,7 @@ public class JsonConfiguration extends FileConfiguration {
 
     /**
      * Takes a List and parses through the values, to ensure that, before saving, all objects are as appropriate as
-     * possible for storage in edu.rit.chrisbitler.ritcraft.tradingpost.json format.
+     * possible for storage in json format.
      *
      * Specifically it does the following:
      *   for Map: calls {@link #buildMap(Map)} on the Map before adding to the returned list.
@@ -153,7 +153,7 @@ public class JsonConfiguration extends FileConfiguration {
         if (input != null) {
             convertMapsToSections(input, this);
         } else {
-            throw new InvalidConfigurationException("An unknown error occurred while attempting to parse the edu.rit.chrisbitler.ritcraft.tradingpost.json.");
+            throw new InvalidConfigurationException("An unknown error occurred while attempting to parse the json.");
         }
     }
 
@@ -226,7 +226,7 @@ public class JsonConfiguration extends FileConfiguration {
 
     @Override
     protected String buildHeader() {
-        // edu.rit.chrisbitler.ritcraft.tradingpost.json does not support comments of any kind.
+        //json does not support comments of any kind.
         return "";
     }
 
@@ -262,7 +262,7 @@ public class JsonConfiguration extends FileConfiguration {
     }
 
     /**
-     * Loads up a configuration from a edu.rit.chrisbitler.ritcraft.tradingpost.json formatted file.
+     * Loads up a configuration from a json formatted file.
      *
      * If the file does not exist, it will be created.  This will attempt to use UTF-8 encoding for the file, if it fails
      * to do so, the system default will be used instead.
@@ -279,7 +279,7 @@ public class JsonConfiguration extends FileConfiguration {
     }
 
     /**
-     * Loads up a configuration from a edu.rit.chrisbitler.ritcraft.tradingpost.json formatted file with the specified file encoding.
+     * Loads up a configuration from a json formatted file with the specified file encoding.
      *
      * If the file does not exist, it will be created.
      *
@@ -294,7 +294,7 @@ public class JsonConfiguration extends FileConfiguration {
     }
 
     /**
-     * Loads up a configuration from a edu.rit.chrisbitler.ritcraft.tradingpost.json formatted file with the specified file encoding.
+     * Loads up a configuration from a json formatted file with the specified file encoding.
      *
      * If the file does not exist, it will be created.
      *
