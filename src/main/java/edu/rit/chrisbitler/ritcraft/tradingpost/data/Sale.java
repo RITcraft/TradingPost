@@ -1,15 +1,12 @@
 package edu.rit.chrisbitler.ritcraft.tradingpost.data;
 
-import json.JsonConfiguration;
+import edu.rit.chrisbitler.ritcraft.tradingpost.json.JsonConfiguration;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * Created by cbitler on 11/3/15.

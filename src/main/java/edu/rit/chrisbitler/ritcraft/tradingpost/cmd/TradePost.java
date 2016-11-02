@@ -1,9 +1,9 @@
 package edu.rit.chrisbitler.ritcraft.tradingpost.cmd;
 
-import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
 import edu.rit.chrisbitler.ritcraft.tradingpost.TradingPost;
 import edu.rit.chrisbitler.ritcraft.tradingpost.data.Sale;
 import edu.rit.chrisbitler.ritcraft.tradingpost.data.Sales;
+import edu.rit.chrisbitler.ritcraft.tradingpost.json.JsonConfiguration;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bukkit.Bukkit;
