@@ -1,7 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-package json;
+package edu.rit.chrisbitler.ritcraft.tradingpost.json;
 
 import net.minidev.json.JSONValue;
 import net.minidev.json.parser.JSONParser;
@@ -49,7 +49,7 @@ public class JsonConfiguration extends FileConfiguration {
 
     /**
      * Takes a Map and parses through the values, to ensure that, before saving, all objects are as appropriate as
-     * possible for storage in json format.
+     * possible for storage in edu.rit.chrisbitler.ritcraft.tradingpost.json format.
      *
      * Specifically it does the following:
      *   for Map: calls this method recursively on the Map before putting it in the returned Map.
@@ -94,7 +94,7 @@ public class JsonConfiguration extends FileConfiguration {
 
     /**
      * Takes a List and parses through the values, to ensure that, before saving, all objects are as appropriate as
-     * possible for storage in json format.
+     * possible for storage in edu.rit.chrisbitler.ritcraft.tradingpost.json format.
      *
      * Specifically it does the following:
      *   for Map: calls {@link #buildMap(Map)} on the Map before adding to the returned list.
@@ -153,7 +153,7 @@ public class JsonConfiguration extends FileConfiguration {
         if (input != null) {
             convertMapsToSections(input, this);
         } else {
-            throw new InvalidConfigurationException("An unknown error occurred while attempting to parse the json.");
+            throw new InvalidConfigurationException("An unknown error occurred while attempting to parse the edu.rit.chrisbitler.ritcraft.tradingpost.json.");
         }
     }
 
@@ -226,7 +226,7 @@ public class JsonConfiguration extends FileConfiguration {
 
     @Override
     protected String buildHeader() {
-        // json does not support comments of any kind.
+        // edu.rit.chrisbitler.ritcraft.tradingpost.json does not support comments of any kind.
         return "";
     }
 
@@ -262,7 +262,7 @@ public class JsonConfiguration extends FileConfiguration {
     }
 
     /**
-     * Loads up a configuration from a json formatted file.
+     * Loads up a configuration from a edu.rit.chrisbitler.ritcraft.tradingpost.json formatted file.
      *
      * If the file does not exist, it will be created.  This will attempt to use UTF-8 encoding for the file, if it fails
      * to do so, the system default will be used instead.
@@ -279,7 +279,7 @@ public class JsonConfiguration extends FileConfiguration {
     }
 
     /**
-     * Loads up a configuration from a json formatted file with the specified file encoding.
+     * Loads up a configuration from a edu.rit.chrisbitler.ritcraft.tradingpost.json formatted file with the specified file encoding.
      *
      * If the file does not exist, it will be created.
      *
@@ -294,7 +294,7 @@ public class JsonConfiguration extends FileConfiguration {
     }
 
     /**
-     * Loads up a configuration from a json formatted file with the specified file encoding.
+     * Loads up a configuration from a edu.rit.chrisbitler.ritcraft.tradingpost.json formatted file with the specified file encoding.
      *
      * If the file does not exist, it will be created.
      *
