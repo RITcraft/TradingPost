@@ -25,3 +25,11 @@ website_ip, website_port - The ip and port to run the website portion of the plu
 
 Spigot project for making plugins like this possible
 Sparkjava for the microwebserver that makes this plugin possible
+
+## License/Copyright information
+###JsonConfiguration:
+Copyright (C) dumptruckman 2013
+
+Original code can be found [here](https://github.com/dumptruckman/JsonConfiguration)
+
+License: [MPLv2](http://mozilla.org/MPL/2.0/)

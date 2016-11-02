@@ -1,6 +1,6 @@
 package edu.rit.chrisbitler.ritcraft.tradingpost.data;
 
-import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
+import json.JsonConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
